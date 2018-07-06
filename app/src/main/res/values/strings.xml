@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Gise\'s Cooking unit converter</string>
+    <string name="No1">1</string>
+    <string name="No2">2</string>
+    <string name="No3">3</string>
+    <string name="No4">4</string>
+    <string name="No5">5</string>
+    <string name="No6">6</string>
+    <string name="No7">7</string>
+    <string name="No8">8</string>
+    <string name="No9">9</string>
+    <string name="No0">0</string>
+    <string name="DecimalPoint">.</string>
+    <string name="Division">/</string>
+    <string name="Delete">DEL</string>
+    <string name="Clear">CLEAR</string>
+    <string name="Convert">CONVERT</string>
+    <string name="UnitFromHint">Enter the value to convert from...</string>
+    <string name="UnitToResult">Result</string>
+    <string name="WrongUnitMessage">Wrong unit selected. Please make sure a valid unit has been selected in both dropdown menus.</string>
+    <string name="EmptyInutFieldMessage">Value of unit to be converted is empty. Please input a valid value in the input field.</string>
+</resources>
