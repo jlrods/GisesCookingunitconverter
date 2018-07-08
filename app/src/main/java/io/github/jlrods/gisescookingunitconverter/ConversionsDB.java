@@ -289,6 +289,8 @@ public class ConversionsDB extends SQLiteOpenHelper {
         //Property: Volume (KS - SI)
         db.execSQL("INSERT INTO CONVERSION VALUES(null, 69,8,'0.284131',"+MainActivity.Operation.Multiplication.increaseOrdinal()+")");
         db.execSQL("INSERT INTO CONVERSION VALUES(null, 8,69,'0.284131',"+MainActivity.Operation.Division.increaseOrdinal()+")");
+        db.execSQL("INSERT INTO CONVERSION VALUES(null, 69,18,'0.000284131',"+MainActivity.Operation.Multiplication.increaseOrdinal()+")");
+        db.execSQL("INSERT INTO CONVERSION VALUES(null, 18,69,'0.000284131',"+MainActivity.Operation.Division.increaseOrdinal()+")");
         //Property: Volume (KS - Imperial)
         db.execSQL("INSERT INTO CONVERSION VALUES(null, 69,39,'10',"+MainActivity.Operation.Multiplication.increaseOrdinal()+")");
         db.execSQL("INSERT INTO CONVERSION VALUES(null, 39,69,'10',"+MainActivity.Operation.Division.increaseOrdinal()+")");
