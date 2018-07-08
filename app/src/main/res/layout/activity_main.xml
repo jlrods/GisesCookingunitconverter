@@ -100,7 +100,8 @@
             android:text="@string/UnitToResult"
             android:textColor="@color/colorAccent"
             android:textSize="?android:attr/windowTitleSize"
-            tools:ignore="NestedWeights" />
+            tools:ignore="NestedWeights"
+            android:autoSizeTextType="uniform"/>
     </LinearLayout>
 
     <TableLayout

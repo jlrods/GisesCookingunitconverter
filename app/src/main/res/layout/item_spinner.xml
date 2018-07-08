@@ -8,12 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    <TextView
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:autoSizeTextType="uniform"/>
+ <!--   <TextView
         android:id="@+id/tvSymbol"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:autoSizeTextType="uniform"/>-->
 </LinearLayout>

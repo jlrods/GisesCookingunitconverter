@@ -31,11 +31,11 @@ public class ConversionsAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         Log.d("Ent_Populate_Spinners","Enters method to populate spinners. ConversionsAdapter.bindView.");
         TextView tvUnit = (TextView) view.findViewById(R.id.tvUnit);
-        TextView tvSymb= (TextView) view.findViewById(R.id.tvSymbol);
+        //TextView tvSymb= (TextView) view.findViewById(R.id.tvSymbol);
         String unitText = cursor.getString(cursor.getColumnIndexOrThrow("Name"));
         String unitSymbol = "("+cursor.getString(cursor.getColumnIndexOrThrow("Symbol"))+")";
-        tvUnit.setText(unitText);
-        tvSymb.setText(unitSymbol);
+        tvUnit.setText(unitText+" "+unitSymbol);
+        //tvSymb.setText(unitSymbol);
         Log.d("Ext_Pop_Spinners","Exit method to populate spinners. ConversionsAdapter.bindView.");
     }
 
