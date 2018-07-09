@@ -71,7 +71,7 @@
             android:layout_weight="0.5"
             android:ems="10"
             android:hint="@string/UnitFromHint"
-            android:textSize="14sp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             tools:ignore="NestedWeights" />
 
         <Button
@@ -121,6 +121,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:elevation="0dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No1" />
 
             <Button
@@ -128,6 +129,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No2"/>
 
             <Button
@@ -135,6 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No3" />
 
         </TableRow>
@@ -149,6 +152,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No4" />
 
             <Button
@@ -156,6 +160,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No5" />
 
             <Button
@@ -163,6 +168,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No6" />
         </TableRow>
 
@@ -176,6 +182,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No7" />
 
             <Button
@@ -183,6 +190,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No8" />
 
             <Button
@@ -190,6 +198,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No9" />
         </TableRow>
 
@@ -203,6 +212,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/DecimalPoint" />
 
             <Button
@@ -210,6 +220,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No0" />
 
             <Button
@@ -217,6 +228,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/Division" />
         </TableRow>
         <TableRow
@@ -229,6 +241,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/Delete" />
 
 
@@ -238,6 +251,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/Clear" />
         </TableRow>
     </TableLayout>
