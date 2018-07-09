@@ -1,6 +1,5 @@
 package io.github.jlrods.gisescookingunitconverter;
 
-import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
@@ -9,17 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CursorAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     public enum Operation{
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             return operation;
         }
     }//End of Operation Enum
-    private static DecimalFormat df2 = new DecimalFormat(".##");
+    private static DecimalFormat df5 = new DecimalFormat(".#####");
     //Conversion DB object to handle the database
     ConversionsDB conversions = new ConversionsDB(this,"conversions",null,1);
     //Cursor to receive result cursor from DB queries
@@ -67,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
     //List of current current Units available in the Spinners which will be used for doing the conversions
     List<Unit> currentUnits;
     //int i;
-    //NoKeyboardEditText tvInput;
+    NoKeyboardEditText tvInput;
+    TextView tvResult;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -105,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //Create and instantiate a TextView object to handle the result text view
-        final TextView tvResult = this.findViewById(R.id.tvResult);
+        tvResult = this.findViewById(R.id.tvResult);
         //Create and instantiate buttons from number pad
         Button btnNo1 = (Button) this.findViewById(R.id.btn1);
         Button btnNo2 = (Button) this.findViewById(R.id.btn2);
@@ -123,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnClear = (Button) this.findViewById(R.id.btnClear);
         //Create and instantiate Convert button
         Button btnConvert = (Button) this.findViewById(R.id.btnConvert);
-        //Create and instantiate the input field
-        final NoKeyboardEditText tvInput = (NoKeyboardEditText) this.findViewById(R.id.intxtUnitFrom);
+        //Create and instantiate the input field and result field
+        tvInput = (NoKeyboardEditText) this.findViewById(R.id.intxtUnitFrom);
         //Assign onClickListeners for each button view in the number pad + convert button
         //Button[] buttons = {btnNo0,btnNo1,btnNo2,btnNo3,btnNo4,btnNo5,btnNo6,btnNo7,btnNo8,btnNo9};
         btnNo1.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //
-                clearInput   (tvInput,tvResult);
+                clearInput   (tvInput);
             }
         });
         //Set OnClickListner for convert button
@@ -231,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 //Call function to make the conversion
-                convert(tvResult,tvInput,spUnitFrom, spUnitTo);
+                convert(tvInput,spUnitFrom, spUnitTo);
             }
         });
         //Populate Spinners with initial data based on default property = weight
@@ -326,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
         }// End of outer if statement
         //Populate spinners with proper units based on the propertS
         this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
+        this.clearInput(tvInput);
         Log.d("Ext_changePrpty","Exit changeProperty method.");
     }//End of changeProperty method
 
@@ -407,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method to clear the whole text in on the input text view and display the hint message
-    private void clearInput(NoKeyboardEditText tvInput,TextView tvResult){
+    private void clearInput(NoKeyboardEditText tvInput){
         Log.d("Ent_Clear","Enter clearInput method.");
         //Set the empty strings on both Text Views
         tvInput.setText("");
@@ -419,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method to convert from one unit to another
-    private void convert(TextView tvresult,NoKeyboardEditText tvInput,NoDefaultSpinner spUnitFrom,NoDefaultSpinner spUnitTo){
+    private void convert(NoKeyboardEditText tvInput,NoDefaultSpinner spUnitFrom,NoDefaultSpinner spUnitTo){
         Log.d("Ent_Convert","Enter convert method.");
         //Define inner varialbles to be used with   method
         Unit unitFrom = new Unit();
@@ -454,7 +452,7 @@ public class MainActivity extends AppCompatActivity {
                         //Create new converter object to calculate the conversion between unitFrom and unitTo
                         Unit_Converter converter = this.createUnitConverter(unitFrom,unitTo,unitFromValue);
                         //Display result on the text view designated for that
-                        tvresult.setText(String.valueOf(df2.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                        tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
                     }else{
                         //If cursor returned null or empty, then look for an intermediate conversion with a reference unit
                         //First, check if the current unitFrom is reference for its system
@@ -473,7 +471,7 @@ public class MainActivity extends AppCompatActivity {
                                     //Create new converter object to calculate the conversion from reference to unitTo
                                     Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
                                     //Display result on the text view designated for that
-                                    tvresult.setText(String.valueOf(df2.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                                    tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
                                 }else{
                                     Toast.makeText(this,"No conversion from reference to UnitTo",Toast.LENGTH_LONG).show();
                                 }
@@ -497,7 +495,7 @@ public class MainActivity extends AppCompatActivity {
                                     //Create new converter object to calculate the conversion from reference to unitTo
                                     Unit_Converter converter = this.createUnitConverter(referenceUnitFrom,unitTo,String.valueOf(converterUnitFromRef.convertUnit()));
                                     //Display result on the text view designated for that
-                                    tvresult.setText(String.valueOf(df2.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                                    tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
                                 }else{
                                     //If cursor is empty or returns null would mean that converision between systems is required and extra intermediate conversion has to be done
                                     //This covers conversions between different systems.
@@ -516,7 +514,7 @@ public class MainActivity extends AppCompatActivity {
                                             //Create new converter object to calculate the conversion from reference to unitTo
                                             Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
                                             //Display result on the text view designated for that
-                                            tvresult.setText(String.valueOf(df2.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                                            tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
                                         }else{
                                             Toast.makeText(this,"No conversion found for theses units: "+unitFrom.getName()+"and "+unitTo.getName() ,Toast.LENGTH_LONG).show();
                                         }
