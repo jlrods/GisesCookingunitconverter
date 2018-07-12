@@ -58,8 +58,17 @@ public class Unit_Converter {
             this.setResult(this.unitFromValue/factor);
         }else{
             //All the Convined operation conversion end here
+            //Dedicated expressions to transform from Kelvin to Fahrenhit and vice versa UnitFrom + 459.67)/1.8 //(UnitFrom*1.8)-459.67
+            if(this.unitFrom.getProperty() == Property.TEMPERATURE){
+                double factor1 = 459.67;
+                double factor2 = 1.8;
+                if(this.unitFrom.getId()== 44 && this.getUnitTo().getId()==22){
+                    this.setResult((this.unitFromValue + factor1)/factor2);
+                }else if(this.unitFrom.getId() == 22 && this.unitTo.getId()==44){
+                    this.setResult((this.unitFromValue*factor2)-factor1);
+                }
+            }
             //A fuction is required to parse the convined expression and represent that in terms of variables, numbers and math operations.
-
         }// End of if else statements
         Log.d("Ext_convertUnit","Exit convertUnit method within the Unit_Converter class.");
         return this.getResult();
