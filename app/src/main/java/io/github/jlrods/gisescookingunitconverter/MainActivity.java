@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Node;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     //int i;
     NoKeyboardEditText tvInput;
     TextView tvResult;
+    NoDefaultSpinner spUnitFrom;
+    NoDefaultSpinner spUnitTo;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -77,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
         imgVolume = (ImageView) this.findViewById(R.id.imgVolume);
         imgTemperature = (ImageView) this.findViewById(R.id.imgTemperature);
         //Declaration of two spinners
-        final NoDefaultSpinner spUnitFrom = this.findViewById(R.id.spUnitFrom);
-        final NoDefaultSpinner spUnitTo = this.findViewById(R.id.spUnitTo);
+        spUnitFrom = this.findViewById(R.id.spUnitFrom);
+        spUnitTo = this.findViewById(R.id.spUnitTo);
         //Assign onClickListeners for each property image
         imgWeight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +242,52 @@ public class MainActivity extends AppCompatActivity {
         
         Log.d("Ext_main","Exit onCreate on MainActivity.");
     }//End of onCreate method
+
+    @Override
+    protected void onSaveInstanceState(Bundle saveState) {
+        super.onSaveInstanceState(saveState);
+        int property = this.currentProperty.ordinal();
+        saveState.putInt("property",property);
+        int unitFromSelectedItem = spUnitFrom.getSelectedItemPosition();
+        saveState.putInt("unitFromPosition",unitFromSelectedItem);
+        int unitToSelectedItem = spUnitTo.getSelectedItemPosition();
+        saveState.putInt("unitToPosition",unitToSelectedItem);
+        String unitFromValue = this.tvInput.getText().toString();
+        saveState.putString("unitFromValue",unitFromValue);
+        String result = this.tvResult.getText().toString();
+        saveState.putString("result",result);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle restoreState) {
+        super.onRestoreInstanceState(restoreState);
+        if (restoreState != null){
+            int propertyID = restoreState.getInt("property");
+            //this.currentProperty = Property.findProperty(propertyID)  ;
+            //Call method to change property based on the current property
+            //Need to change function to call so UI is actually updated or remove if that check the same property has not been selected...
+            switch(propertyID){
+                case 1:
+                case 2:
+                    this.changeProperty(spUnitFrom,spUnitTo,currentProperty,Property.findProperty(propertyID));
+                    this.tvInput.setText(restoreState.getString("unitFromValue"));
+                    break;
+                default:
+                    break;
+            }
+
+            //Select the selected items on each spinner
+            int unitFromPosition = restoreState.getInt("unitFromPosition");
+            int unitToPostion = restoreState.getInt("unitToPosition");
+            spUnitFrom.setSelection(unitFromPosition);
+            spUnitTo.setSelection(unitToPostion);
+            //Display correct result
+            this.tvResult.setText(restoreState.getString("result"));
+        }
+
+        //var = recEstado.getString("variable");
+        //pos = recEstado.getInt("posicion");
+    }
 
     //Method to populate a spinner passed as parameter based on the property selected
     protected void populateSpinner(Spinner spinner, Property property){
