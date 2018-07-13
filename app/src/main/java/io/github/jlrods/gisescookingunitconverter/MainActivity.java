@@ -4,6 +4,11 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.SuperscriptSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +20,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Node;
 
+import java.awt.font.TextAttribute;
+import java.text.AttributedString;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -239,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
         this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
         //Get a list of units from the Spinner
         currentUnits = updateUnitList();
-        
+
         Log.d("Ext_main","Exit onCreate on MainActivity.");
     }//End of onCreate method
 
@@ -502,7 +509,7 @@ public class MainActivity extends AppCompatActivity {
                         //Create new converter object to calculate the conversion between unitFrom and unitTo
                         Unit_Converter converter = this.createUnitConverter(unitFrom,unitTo,unitFromValue);
                         //Display result on the text view designated for that
-                        tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                        this.displayResult(converter);
                     }else{
                         //If cursor returned null or empty, then look for an intermediate conversion with a reference unit
                         //First, check if the current unitFrom is reference for its system
@@ -521,7 +528,7 @@ public class MainActivity extends AppCompatActivity {
                                     //Create new converter object to calculate the conversion from reference to unitTo
                                     Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
                                     //Display result on the text view designated for that
-                                    tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                                    this.displayResult(converter);
                                 }else{
                                     Toast.makeText(this,"No conversion from reference to UnitTo",Toast.LENGTH_LONG).show();
                                 }
@@ -545,7 +552,7 @@ public class MainActivity extends AppCompatActivity {
                                     //Create new converter object to calculate the conversion from reference to unitTo
                                     Unit_Converter converter = this.createUnitConverter(referenceUnitFrom,unitTo,String.valueOf(converterUnitFromRef.convertUnit()));
                                     //Display result on the text view designated for that
-                                    tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                                    this.displayResult(converter);
                                 }else{
                                     //If cursor is empty or returns null would mean that converision between systems is required and extra intermediate conversion has to be done
                                     //This covers conversions between different systems.
@@ -564,7 +571,7 @@ public class MainActivity extends AppCompatActivity {
                                             //Create new converter object to calculate the conversion from reference to unitTo
                                             Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
                                             //Display result on the text view designated for that
-                                            tvResult.setText(String.valueOf(df5.format(converter.convertUnit()))+" " +unitTo.getSymbol());
+                                            this.displayResult(converter);
                                         }else{
                                             Toast.makeText(this,"No conversion found for theses units: "+unitFrom.getName()+"and "+unitTo.getName() ,Toast.LENGTH_LONG).show();
                                         }
@@ -659,6 +666,33 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Ext_ExtractName","Exit extractSelectedName method.");
         return itemName;
     }//End of extractSelectedName method
+
+    private void displayResult(Unit_Converter converter){
+        Log.d("Ent_displayResult","Enter displayResult method.");
+        //Create strings for the numeric result (already formated)
+        String result = df5.format(converter.convertUnit())+" ";
+        //Create string for the symbol coming from DB
+        String symbol = converter.getUnitTo().getSymbol();
+        //Declare s Span object and point to null
+        SpannableStringBuilder superScriptString = null;
+        //Check if the symbol retrieved form DB has the ^ symbol so it can be removed from symbol string
+        if (symbol.contains("^")){
+            //Find the index of the ^ symbol
+            int index = symbol.indexOf("^");
+            //Redefine the result string by concatenating with the modified symbol string
+            result = result + symbol.substring(0,index) + symbol.substring(index+1,symbol.length());
+            //Instantiate the the span text
+            superScriptString = new SpannableStringBuilder(result);
+            //Include the superscript format to the spannable text
+            superScriptString.setSpan(new SuperscriptSpan(), result.length()-1, result.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            superScriptString.setSpan(new RelativeSizeSpan(0.75f), result.length()-1, result.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }else {
+            result += symbol;
+            superScriptString = new SpannableStringBuilder(result);
+        }
+        this.tvResult.setText(superScriptString);
+        Log.d("Ext_displayResult","Exit displayResult method.");
+    }//  End of displayResult method.
     /*private void assignOnClickEventListenerNumPadButtons(Button[] buttons){
         for(i=0;i<buttons.length;i++){
             buttons[i].setOnClickListener(new View.OnClickListener() {
