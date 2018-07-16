@@ -215,7 +215,7 @@
                 android:text="@string/No0" />
 
             <Button
-                android:id="@+id/btnDivision"
+                android:id="@+id/btnChangeSign"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
