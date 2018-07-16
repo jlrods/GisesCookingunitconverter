@@ -3,9 +3,11 @@ package io.github.jlrods.gisescookingunitconverter;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 import android.util.Log;
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnNo9 = (Button) this.findViewById(R.id.btn9);
         Button btnNo0 = (Button) this.findViewById(R.id.btn0);
         Button btnDecimal = (Button) this.findViewById(R.id.btnDecimal);
-        Button btnDivision = (Button) this.findViewById(R.id.btnDivision);
+        Button btnChangeSign = (Button) this.findViewById(R.id.btnChangeSign);
         Button btnDel = (Button) this.findViewById(R.id.btnDel);
         Button btnClear = (Button) this.findViewById(R.id.btnClear);
         //Create and instantiate Convert button
@@ -208,11 +210,12 @@ public class MainActivity extends AppCompatActivity {
                 inputNumber(tvInput,".");
             }
         });
-        btnDivision.setOnClickListener(new View.OnClickListener() {
+        btnChangeSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //
-                inputNumber(tvInput,"/");
+                //inputNumber(tvInput,"/");
+                changeSign(tvInput);
             }
         });
         btnDel.setOnClickListener(new View.OnClickListener() {
@@ -372,10 +375,10 @@ public class MainActivity extends AppCompatActivity {
             currentProperty = newProperty;
             //Get a list of units from the Spinner
             currentUnits = updateUnitList();
+            //Populate spinners with proper units based on the property
+            this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
+            this.clearInput(tvInput);
         }// End of outer if statement
-        //Populate spinners with proper units based on the propertS
-        this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
-        this.clearInput(tvInput);
         Log.d("Ext_changePrpty","Exit changeProperty method.");
     }//End of changeProperty method
 
@@ -397,6 +400,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Ext_isUsingSymbol","Exit isUsingSymbol method.");
         return isUsingSymbol;
     }// End of switchDecimalAndDivisionState method
+
 
     private void inputNumber(NoKeyboardEditText inputField, String digit){
         Log.d("Ent_input","Enter inputNumber method.");
@@ -437,24 +441,44 @@ public class MainActivity extends AppCompatActivity {
                     inputField.setText(inputField.getText().append("."));
                 }
                 break;
-            case "/":
-                //Check if there is not a symbol already in the text before appending the "/" sysmbol
-                if(!isUsingSymbol(inputField)){
-                    inputField.setText(inputField.getText().append("/"));
-                }
-                break;
             default:
                 break;
         }
         Log.d("Ext_input","Exit inputNumber method.");
     }//End of inputNumber method
 
+    private void changeSign(NoKeyboardEditText inputField){
+        if (inputField !=null) {
+            //Define variable to store the current value
+            String currentValue = inputField.getText().toString();
+            String negativeSign = "-";
+            //Check if the current string is empty
+            if (TextUtils.isEmpty(inputField.getText())){
+                //If empty add the - sign
+                inputField.setText(negativeSign);
+            }
+            //Check current sign is negative and invert if required
+            else if(currentValue.substring(0,1).equals("-")){
+                //Check the current values holds more digits, not only th e- sign
+                if (currentValue.length()>1){
+                    inputField.setText(currentValue.substring(1,currentValue.length()));
+                }
+            }else{
+                // The sign is positve so invert to negative value
+                inputField.setText(negativeSign.concat(currentValue));
+            }
+        }
+    }
+
     //Method to delete last digit displayed on the input text view
     private void deleteDigit(NoKeyboardEditText tvInput){
         Log.d("Ent_Del","Enter deleteDigit method.");
-        tvInput.setText(tvInput.getText().delete(tvInput.length()-1 ,tvInput.length()));
+        //Check the input field is not empty so the last character can be deleted
+        if (tvInput !=null && !TextUtils.isEmpty(tvInput.getText())){
+            tvInput.setText(tvInput.getText().delete(tvInput.length()-1 ,tvInput.length()));
+        }
         Log.d("Ext_Del","Exit deleteDigit method.");
-    }
+    }// End of deleteDigit method
 
     //Method to clear the whole text in on the input text view and display the hint message
     private void clearInput(NoKeyboardEditText tvInput){
@@ -688,6 +712,8 @@ public class MainActivity extends AppCompatActivity {
         this.tvResult.setText(superScriptString);
         Log.d("Ext_displayResult","Exit displayResult method.");
     }//  End of displayResult method.
+
+
     /*private void assignOnClickEventListenerNumPadButtons(Button[] buttons){
         for(i=0;i<buttons.length;i++){
             buttons[i].setOnClickListener(new View.OnClickListener() {
