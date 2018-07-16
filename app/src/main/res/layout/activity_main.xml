@@ -95,13 +95,13 @@
             android:id="@+id/tvResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:autoText="false"
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="@string/UnitToResult"
             android:textColor="@color/colorAccent"
-            android:textSize="?android:attr/windowTitleSize"
-            tools:ignore="NestedWeights"
-            android:autoSizeTextType="uniform"/>
+            android:textSize="24sp"
+            tools:ignore="NestedWeights" />
     </LinearLayout>
 
     <TableLayout
@@ -121,7 +121,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:elevation="0dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+
                 android:text="@string/No1" />
 
             <Button
@@ -129,7 +129,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No2"/>
 
             <Button
@@ -137,7 +136,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No3" />
 
         </TableRow>
@@ -152,7 +150,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No4" />
 
             <Button
@@ -160,7 +157,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No5" />
 
             <Button
@@ -168,7 +164,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No6" />
         </TableRow>
 
@@ -182,7 +177,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No7" />
 
             <Button
@@ -190,7 +184,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No8" />
 
             <Button
@@ -198,7 +191,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/No9" />
         </TableRow>
 
@@ -212,7 +204,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/DecimalPoint" />
 
             <Button
@@ -220,7 +211,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+
                 android:text="@string/No0" />
 
             <Button
@@ -228,8 +219,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/Division" />
+                android:text="@string/ChangeSign" />
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
@@ -241,7 +231,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/Delete" />
 
 
@@ -251,7 +240,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/Clear" />
         </TableRow>
     </TableLayout>

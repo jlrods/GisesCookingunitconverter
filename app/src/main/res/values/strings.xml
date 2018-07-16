@@ -15,8 +15,10 @@
     <string name="Delete">DEL</string>
     <string name="Clear">CLEAR</string>
     <string name="Convert">CONVERT</string>
-    <string name="UnitFromHint">Enter the value to convert from...</string>
+    <string name="UnitFromHint">Enter a value...</string>
     <string name="UnitToResult">Result</string>
     <string name="WrongUnitMessage">Wrong unit selected. Please make sure a valid unit has been selected in both dropdown menus.</string>
     <string name="EmptyInutFieldMessage">Value of unit to be converted is empty. Please input a valid value in the input field.</string>
+    <string name="ChangeSign">+/-</string>
+    <string name="DeleteFull">DELETE</string>
 </resources>
