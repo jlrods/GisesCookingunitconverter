@@ -42,7 +42,9 @@
         box will be cleared and will display the \"Result\" text. The \"From\" and \"To\" scroll menus will not
         be cleared and current selection will remain.</string>
     <string name="aboutText10">4.- The \"+/-\" button allows to toggle between positive and negative numbers and
-    vice versa. Negative sign can be set even when the input box is empty and has no numerical value.</string>
+        vice versa. This button can only be used when the Temperature property has been selected, since transforming
+        negative magnitudes of weight and volume does not make any sense.Negative sign can be set even when the
+        input box is empty and has no numerical value.</string>
     <string name="Preference1Title">Default Property</string>
     <string name="Preference1Description">Select the default property at the app launching.</string>
 </resources>

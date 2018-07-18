@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvResult;
     NoDefaultSpinner spUnitFrom;
     NoDefaultSpinner spUnitTo;
+    Button btnChangeSign;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -128,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnNo9 = (Button) this.findViewById(R.id.btn9);
         Button btnNo0 = (Button) this.findViewById(R.id.btn0);
         Button btnDecimal = (Button) this.findViewById(R.id.btnDecimal);
-        Button btnChangeSign = (Button) this.findViewById(R.id.btnChangeSign);
+        btnChangeSign = (Button) this.findViewById(R.id.btnChangeSign);
         Button btnDel = (Button) this.findViewById(R.id.btnDel);
         Button btnClear = (Button) this.findViewById(R.id.btnClear);
         //Create and instantiate Convert button
@@ -245,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
                 convert(tvInput,spUnitFrom, spUnitTo);
             }
         });
+        btnChangeSign.setClickable(false);
         //Get default current property from preferences
         SharedPreferences pref =  PreferenceManager.getDefaultSharedPreferences(this);
         String preferedPropertyID = pref.getString("intitalProperty","0");
@@ -395,6 +397,12 @@ public class MainActivity extends AppCompatActivity {
             }// End of inner if else statements
             //Change currentProperty variable to the one selected
             currentProperty = newProperty;
+            //Disable or enable the +/- button depending on the property
+            if(currentProperty == Property.TEMPERATURE){
+                btnChangeSign.setClickable(true);
+            }else{
+                btnChangeSign.setClickable(false);
+            }
             //Get a list of units from the Spinner
             currentUnits = updateUnitList();
             //Populate spinners with proper units based on the property
