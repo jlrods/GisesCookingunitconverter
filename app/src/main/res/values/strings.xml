@@ -21,4 +21,28 @@
     <string name="EmptyInutFieldMessage">Value of unit to be converted is empty. Please input a valid value in the input field.</string>
     <string name="ChangeSign">+/-</string>
     <string name="DeleteFull">DELETE</string>
+    <string name="Settings">Settings</string>
+    <string name ="About">About...</string>
+    <string name="Aboutheading">About Gise\'s Cooking unit converter:</string>
+    <string name="Welcome">Welcome!!!</string>
+    <string name="aboutText1">A.- How to use the app:</string>
+    <string name="aboutText2">1.- Select the property to work with from the images on the top. Three
+    properties are available: Weight, Volume and Temperature. They are displayed in that order. The property highligted
+    with the blue colour is the selected one.</string>
+    <string name="aboutText3">2.- Once the property has been selected, click on the \"From\" and \"To\" scroll menus to select
+    the units to convert from and to. Depending on the property selected different units will be displayed on the
+    scroll menus.</string>
+    <string name="aboutText4">3.- Enter a value in the box at the left of the convert button, that value will correspond
+    to the value of the unit to convert from. Positive and negative decimal numbers are allowed.</string>
+    <string name="aboutText5">4.- Click on the convert button and get your result on the \"Result\" message box.</string>
+    <string name="aboutText6">B.- Tips:</string>
+    <string name="aboutText7">1.- If any data to be input is missing, the app will prompt you a message.</string>
+    <string name="aboutText8">2.- \"DEL\"  button will delete the last digit from the input box.</string>
+    <string name="aboutText9">3.- \"CLEAR\"  button will clear the input box and display the hint message and the result
+        box will be cleared and will display the \"Result\" text. The \"From\" and \"To\" scroll menus will not
+        be cleared and current selection will remain.</string>
+    <string name="aboutText10">4.- The \"+/-\" button allows to toggle between positive and negative numbers and
+    vice versa. Negative sign can be set even when the input box is empty and has no numerical value.</string>
+    <string name="Preference1Title">Default Property</string>
+    <string name="Preference1Description">Select the default property at the app launching.</string>
 </resources>

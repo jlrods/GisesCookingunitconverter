@@ -1,8 +1,11 @@
 package io.github.jlrods.gisescookingunitconverter;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
@@ -11,6 +14,8 @@ import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CursorAdapter;
@@ -240,11 +245,20 @@ public class MainActivity extends AppCompatActivity {
                 convert(tvInput,spUnitFrom, spUnitTo);
             }
         });
-        //Populate Spinners with initial data based on default property = weight
-        this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
-        //Get a list of units from the Spinner
-        currentUnits = updateUnitList();
-
+        //Get default current property from preferences
+        SharedPreferences pref =  PreferenceManager.getDefaultSharedPreferences(this);
+        String preferedPropertyID = pref.getString("intitalProperty","0");
+        //Create a new property object to hold the prefered property
+        Property  preferenceProperty = Property.findProperty(Integer.parseInt(preferedPropertyID));
+        //Check the current property and the prefered  are not the same
+        if(this.currentProperty != preferenceProperty){
+            this.changeProperty(spUnitFrom,spUnitTo,currentProperty,preferenceProperty);
+        }else{
+            //Populate Spinners with initial data based on default property = weight
+            this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
+            //Get a list of units from the Spinner
+            currentUnits = updateUnitList();
+        }// End of if else statement
         Log.d("Ext_main","Exit onCreate on MainActivity.");
     }//End of onCreate method
 
@@ -270,17 +284,8 @@ public class MainActivity extends AppCompatActivity {
             int propertyID = restoreState.getInt("property");
             //this.currentProperty = Property.findProperty(propertyID)  ;
             //Call method to change property based on the current property
-            //Need to change function to call so UI is actually updated or remove if that check the same property has not been selected...
-            switch(propertyID){
-                case 1:
-                case 2:
-                    this.changeProperty(spUnitFrom,spUnitTo,currentProperty,Property.findProperty(propertyID));
-                    this.tvInput.setText(restoreState.getString("unitFromValue"));
-                    break;
-                default:
-                    break;
-            }
-
+            this.changeProperty(spUnitFrom,spUnitTo,currentProperty,Property.findProperty(propertyID));
+            this.tvInput.setText(restoreState.getString("unitFromValue"));
             //Select the selected items on each spinner
             int unitFromPosition = restoreState.getInt("unitFromPosition");
             int unitToPostion = restoreState.getInt("unitToPosition");
@@ -289,9 +294,26 @@ public class MainActivity extends AppCompatActivity {
             //Display correct result
             this.tvResult.setText(restoreState.getString("result"));
         }
+    }// End of onRestoreInstanceState method
 
-        //var = recEstado.getString("variable");
-        //pos = recEstado.getInt("posicion");
+    //Method to make Action bar menu visible
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }// End of onCreateOptionsMenu method
+
+    //Method to define menu functionalities
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.settings) {
+            this.callPrefernces(null);
+            return true;
+        }
+        if (id == R.id.about) {
+            this.callAboutActivity(null);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //Method to populate a spinner passed as parameter based on the property selected
@@ -388,13 +410,13 @@ public class MainActivity extends AppCompatActivity {
         //Define inner variable to be used within this context
         //Decimal and Division variables
         String decimal = ".";
-        String division = "/";
+        //String division = "/";
         //Boolean value to be returned based on the current text analysis
         boolean isUsingSymbol = false;
         //Get the current text from the Text field
         String text = inputField.getText().toString();
         //Check if "." or "/" characters has been already used
-        if (text.contains(decimal) || text.contains(division)){
+        if (text.contains(decimal)){
             isUsingSymbol = true;
         }
         Log.d("Ext_isUsingSymbol","Exit isUsingSymbol method.");
@@ -712,6 +734,18 @@ public class MainActivity extends AppCompatActivity {
         this.tvResult.setText(superScriptString);
         Log.d("Ext_displayResult","Exit displayResult method.");
     }//  End of displayResult method.
+
+    //Method to call the AboutActivity
+    private void callAboutActivity(View view){
+        Intent i = new Intent(this, AboutActivity.class);
+        startActivity(i);
+    }//End of callAboutActivity
+
+    //Methos to call the Preferences screen
+    private void callPrefernces(View view){
+        Intent i = new Intent(this, PreferencesActivity.class);
+        startActivity(i);
+    }
 
 
     /*private void assignOnClickEventListenerNumPadButtons(Button[] buttons){
