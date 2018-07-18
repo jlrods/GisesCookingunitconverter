@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="preferences_main">
+    <ListPreference
+        android:key="intitalProperty"
+        android:title="@string/Preference1Title"
+        android:summary="string/Preference1Description"
+        android:entries="@array/properties"
+        android:entryValues="@array/propertyValues"
+        android:defaultValue="1"/>
+</PreferenceScreen>

@@ -1,9 +1,11 @@
 package io.github.jlrods.gisescookingunitconverter;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
@@ -243,11 +245,20 @@ public class MainActivity extends AppCompatActivity {
                 convert(tvInput,spUnitFrom, spUnitTo);
             }
         });
-        //Populate Spinners with initial data based on default property = weight
-        this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
-        //Get a list of units from the Spinner
-        currentUnits = updateUnitList();
-
+        //Get default current property from preferences
+        SharedPreferences pref =  PreferenceManager.getDefaultSharedPreferences(this);
+        String preferedPropertyID = pref.getString("intitalProperty","0");
+        //Create a new property object to hold the prefered property
+        Property  preferenceProperty = Property.findProperty(Integer.parseInt(preferedPropertyID));
+        //Check the current property and the prefered  are not the same
+        if(this.currentProperty != preferenceProperty){
+            this.changeProperty(spUnitFrom,spUnitTo,currentProperty,preferenceProperty);
+        }else{
+            //Populate Spinners with initial data based on default property = weight
+            this.changeSpinnersContent(spUnitFrom,spUnitTo,currentProperty);
+            //Get a list of units from the Spinner
+            currentUnits = updateUnitList();
+        }// End of if else statement
         Log.d("Ext_main","Exit onCreate on MainActivity.");
     }//End of onCreate method
 
@@ -273,17 +284,8 @@ public class MainActivity extends AppCompatActivity {
             int propertyID = restoreState.getInt("property");
             //this.currentProperty = Property.findProperty(propertyID)  ;
             //Call method to change property based on the current property
-            //Need to change function to call so UI is actually updated or remove if that check the same property has not been selected...
-            switch(propertyID){
-                case 1:
-                case 2:
-                    this.changeProperty(spUnitFrom,spUnitTo,currentProperty,Property.findProperty(propertyID));
-                    this.tvInput.setText(restoreState.getString("unitFromValue"));
-                    break;
-                default:
-                    break;
-            }
-
+            this.changeProperty(spUnitFrom,spUnitTo,currentProperty,Property.findProperty(propertyID));
+            this.tvInput.setText(restoreState.getString("unitFromValue"));
             //Select the selected items on each spinner
             int unitFromPosition = restoreState.getInt("unitFromPosition");
             int unitToPostion = restoreState.getInt("unitToPosition");
@@ -304,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
     @Override public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.settings) {
+            this.callPrefernces(null);
             return true;
         }
         if (id == R.id.about) {
@@ -737,6 +740,12 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, AboutActivity.class);
         startActivity(i);
     }//End of callAboutActivity
+
+    //Methos to call the Preferences screen
+    private void callPrefernces(View view){
+        Intent i = new Intent(this, PreferencesActivity.class);
+        startActivity(i);
+    }
 
 
     /*private void assignOnClickEventListenerNumPadButtons(Button[] buttons){
