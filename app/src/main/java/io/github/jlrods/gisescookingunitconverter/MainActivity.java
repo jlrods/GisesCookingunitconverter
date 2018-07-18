@@ -1,5 +1,6 @@
 package io.github.jlrods.gisescookingunitconverter;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.SuperscriptSpan;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CursorAdapter;
@@ -289,9 +292,25 @@ public class MainActivity extends AppCompatActivity {
             //Display correct result
             this.tvResult.setText(restoreState.getString("result"));
         }
+    }// End of onRestoreInstanceState method
 
-        //var = recEstado.getString("variable");
-        //pos = recEstado.getInt("posicion");
+    //Method to make Action bar menu visible
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }// End of onCreateOptionsMenu method
+
+    //Method to define menu functionalities
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.settings) {
+            return true;
+        }
+        if (id == R.id.about) {
+            this.callAboutActivity(null);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //Method to populate a spinner passed as parameter based on the property selected
@@ -388,13 +407,13 @@ public class MainActivity extends AppCompatActivity {
         //Define inner variable to be used within this context
         //Decimal and Division variables
         String decimal = ".";
-        String division = "/";
+        //String division = "/";
         //Boolean value to be returned based on the current text analysis
         boolean isUsingSymbol = false;
         //Get the current text from the Text field
         String text = inputField.getText().toString();
         //Check if "." or "/" characters has been already used
-        if (text.contains(decimal) || text.contains(division)){
+        if (text.contains(decimal)){
             isUsingSymbol = true;
         }
         Log.d("Ext_isUsingSymbol","Exit isUsingSymbol method.");
@@ -712,6 +731,12 @@ public class MainActivity extends AppCompatActivity {
         this.tvResult.setText(superScriptString);
         Log.d("Ext_displayResult","Exit displayResult method.");
     }//  End of displayResult method.
+
+    //Method to call the AboutActivity
+    private void callAboutActivity(View view){
+        Intent i = new Intent(this, AboutActivity.class);
+        startActivity(i);
+    }//End of callAboutActivity
 
 
     /*private void assignOnClickEventListenerNumPadButtons(Button[] buttons){
