@@ -4,7 +4,7 @@
     <ListPreference
         android:key="intitalProperty"
         android:title="@string/Preference1Title"
-        android:summary="string/Preference1Description"
+        android:summary="@string/Preference1Description"
         android:entries="@array/properties"
         android:entryValues="@array/propertyValues"
         android:defaultValue="1"/>
