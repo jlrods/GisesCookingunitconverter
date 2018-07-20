@@ -21,7 +21,7 @@ public class ConversionsDB extends SQLiteOpenHelper {
     public ConversionsDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
-    }
+    }//End of constructor method
 
     @Override
     public void onCreate(SQLiteDatabase db) {
