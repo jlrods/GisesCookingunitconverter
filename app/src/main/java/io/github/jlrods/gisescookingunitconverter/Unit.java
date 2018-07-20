@@ -1,11 +1,14 @@
 package io.github.jlrods.gisescookingunitconverter;
 
+import android.util.Log;
+
 /**
  * Created by rodjose1 on 21/05/2018.
  */
 
+//Class to handle the Unit abstraction
 public class Unit {
-    //Class Attributes
+    //Unit class Attributes
     private int id;
     private String name;
     private String symbol;
@@ -16,19 +19,25 @@ public class Unit {
     //Constructors
     //Default constructor
     public Unit(){
+        Log.d("Ent_DefaultConstUnit","Enter default constructor in Unit class.");
         this.name ="";
         this.symbol="";
         this.isReference = false;
-    }
+        Log.d("Ext_DefaultConstUnit","Enxit default constructor in Unit class.");
+    }//End of unit default constructor
+
     //Full constructor
     public Unit(int id,String name, String symbol, boolean isReference, Property property, Unit_System system){
+        Log.d("Ent_FullConstUnit","Enter full constructor in Unit class.");
         this.id = id;
         this.name = name;
         this.symbol = symbol;
         this.isReference = isReference;
         this.property = property;
         this.system = system;
-    }
+        Log.d("Ext_FullConstUnit","Exit full constructor in Unit class.");
+    }//End of unit full constructor
+
     //Getter and Setter methods
 
     public int getId() {
@@ -39,9 +48,7 @@ public class Unit {
         return name;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
+    public String getSymbol() { return symbol; }
 
     public boolean isReference() {
         return isReference;
