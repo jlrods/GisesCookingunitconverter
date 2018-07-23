@@ -3,101 +3,114 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/aboutTitle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Aboutheading"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/welcome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutTitle"
-            android:text="@string/Welcome"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <TextView
+                android:id="@+id/aboutTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/Aboutheading"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-        <TextView
-            android:id="@+id/aboutText1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/welcome"
-            android:background="@color/colorAccent"
-            android:text="@string/aboutText1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <TextView
+                android:id="@+id/welcome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutTitle"
+                android:text="@string/Welcome"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:id="@+id/aboutText2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText1"
-            android:text="@string/aboutText2"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-        <TextView
-            android:id="@+id/aboutText3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText2"
-            android:text="@string/aboutText3"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-        <TextView
-            android:id="@+id/aboutText4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText3"
-            android:text="@string/aboutText4"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-        <TextView
-            android:id="@+id/aboutText5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText4"
-            android:text="@string/aboutText5"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            <TextView
+                android:id="@+id/aboutText1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/welcome"
+                android:background="@color/colorAccent"
+                android:text="@string/aboutText1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:id="@+id/aboutText6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText5"
-            android:background="@color/colorAccent"
-            android:text="@string/aboutText6"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        <TextView
-            android:id="@+id/aboutText7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText6"
-            android:text="@string/aboutText7"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-        <TextView
-            android:id="@+id/aboutText8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText7"
-            android:text="@string/aboutText8"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-        <TextView
-            android:id="@+id/aboutText9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText8"
-            android:text="@string/aboutText9"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-        <TextView
-            android:id="@+id/aboutText10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/aboutText9"
-            android:text="@string/aboutText10"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            <TextView
+                android:id="@+id/aboutText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText1"
+                android:text="@string/aboutText2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/aboutText3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText2"
+                android:text="@string/aboutText3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/aboutText4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText3"
+                android:text="@string/aboutText4"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/aboutText5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText4"
+                android:text="@string/aboutText5"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/aboutText6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText5"
+                android:background="@color/colorAccent"
+                android:text="@string/aboutText6"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <TextView
+                android:id="@+id/aboutText7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText6"
+                android:text="@string/aboutText7"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/aboutText8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText7"
+                android:text="@string/aboutText8"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/aboutText9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText8"
+                android:text="@string/aboutText9"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/aboutText10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/aboutText9"
+                android:text="@string/aboutText10"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 
 </android.support.constraint.ConstraintLayout>
