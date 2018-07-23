@@ -42,9 +42,12 @@
         box will be cleared and will display the \"Result\" text. The \"From\" and \"To\" scroll menus will not
         be cleared and current selection will remain.</string>
     <string name="aboutText10">4.- The \"+/-\" button allows to toggle between positive and negative numbers and
-        vice versa. This button can only be used when the Temperature property has been selected, since transforming
+        vice versa. This button can only be used when the Temperature property has been selected, as transforming
         negative magnitudes of weight and volume does not make any sense.Negative sign can be set even when the
-        input box is empty and has no numerical value.</string>
+        input box is empty and has no numerical value. Negative values are only possible for Celcius and Fahrenheit scales,
+        since Kelvin is an absolute scale which minimum point is zero. Minimum valid values for Celsius and Fahrenheit
+        are -273.15°C or -456.67°F, respectively .</string>
     <string name="Preference1Title">Default Property</string>
     <string name="Preference1Description">Select the default property at the app launching.</string>
+    <string name="InvalidTemp">Invalid. The value you try to convert to is below the Absolute zero mark (0K, -273.15°C or -456.67°F)</string>
 </resources>

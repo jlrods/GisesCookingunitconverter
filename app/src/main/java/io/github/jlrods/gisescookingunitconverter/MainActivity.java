@@ -1,5 +1,6 @@
 package io.github.jlrods.gisescookingunitconverter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -92,7 +93,10 @@ public class MainActivity extends AppCompatActivity {
     NoDefaultSpinner spUnitTo;
     //Button to change input value sign
     Button btnChangeSign;
-
+    //Define constants to represent physical limits (Temperature minimun valid values for each scale that respect the Absolute zero concept)
+    double ABSOLUTE_ZERO = 0.0;
+    double ABSOLUTE_ZERO_CELSIUS = -273.15;
+    double ABSOLUTE_ZERO_FAHRENHEIT = -459.67;
     //On create method
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -611,87 +615,93 @@ public class MainActivity extends AppCompatActivity {
                     //If units selected are different extract unit objects form currentUnits list by passing their names in
                     unitFrom = this.findUnitByName(unitFromName);
                     unitTo = this.findUnitByName(unitToName);
-                    //Try to find a directed link conversion between the two units
-                    cursor = this.conversions.getConversion(unitFrom,unitTo);
-                    //Check the cursor does not return null or is empty. (This covers conversions between units and its reference within its own system)
-                    if(cursor != null && cursor.getCount() > 0){
-                        //Create new converter object to calculate the conversion between unitFrom and unitTo
-                        Unit_Converter converter = this.createUnitConverter(unitFrom,unitTo,unitFromValue);
-                        //Call method to display result on the text view designated for that
-                        this.displayResult(converter);
+                    //Check the unit and the value are coherent and represent physical magnitudes (Kelvin not negavitive and Celsues not lower than -273.15)
+                    if (!this.isValid(unitFrom,unitFromValue)){
+                        Toast.makeText(this,R.string.InvalidTemp,Toast.LENGTH_LONG).show();
                     }else{
-                        //If cursor returned null or empty, then look for an intermediate conversion with a reference unit
-                        //First, check if the current unitFrom is reference for its system
-                        if(unitFrom.isReference()){
-                            //Declare and instantiate a new unit object to keep the reference in the unitTo system
-                            Unit referenceUnitTo = this.conversions.getReference(unitTo);
-                            //Try to find the direct conversion between unitFrom and the unitTo reference
-                            cursor = this.conversions.getConversion(unitFrom,referenceUnitTo);
-                            //Check the cursor does not return null or empty. (This covers conversion between reference units in different systems)
-                            if(cursor!=null && cursor.getCount()>0){
-                                //Create converter object to calculate conversion from UnitFrom to referenceUnitTo
-                                Unit_Converter converterUnitToRef= this.createUnitConverter(unitFrom,referenceUnitTo,unitFromValue);
-                                //Try to find the direct conversion between unitTo and its reference
-                                cursor = this.conversions.getConversion(referenceUnitTo,unitTo);
-                                if(cursor!= null && cursor.getCount()>0){
-                                    //Create new converter object to calculate the conversion from reference to unitTo
-                                    Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
-                                    //Call the method to display result on the text view designated for that
-                                    this.displayResult(converter);
+                        //Try to find a directed link conversion between the two units
+                        cursor = this.conversions.getConversion(unitFrom,unitTo);
+                        //Check the cursor does not return null or is empty. (This covers conversions between units and its reference within its own system)
+                        if(cursor != null && cursor.getCount() > 0){
+                            //Create new converter object to calculate the conversion between unitFrom and unitTo
+                            Unit_Converter converter = this.createUnitConverter(unitFrom,unitTo,unitFromValue);
+                            //Call method to display result on the text view designated for that
+                            this.displayResult(converter);
+                        }else{
+                            //If cursor returned null or empty, then look for an intermediate conversion with a reference unit
+                            //First, check if the current unitFrom is reference for its system
+                            if(unitFrom.isReference()){
+                                //Declare and instantiate a new unit object to keep the reference in the unitTo system
+                                Unit referenceUnitTo = this.conversions.getReference(unitTo);
+                                //Try to find the direct conversion between unitFrom and the unitTo reference
+                                cursor = this.conversions.getConversion(unitFrom,referenceUnitTo);
+                                //Check the cursor does not return null or empty. (This covers conversion between reference units in different systems)
+                                if(cursor!=null && cursor.getCount()>0){
+                                    //Create converter object to calculate conversion from UnitFrom to referenceUnitTo
+                                    Unit_Converter converterUnitToRef= this.createUnitConverter(unitFrom,referenceUnitTo,unitFromValue);
+                                    //Try to find the direct conversion between unitTo and its reference
+                                    cursor = this.conversions.getConversion(referenceUnitTo,unitTo);
+                                    if(cursor!= null && cursor.getCount()>0){
+                                        //Create new converter object to calculate the conversion from reference to unitTo
+                                        Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
+                                        //Call the method to display result on the text view designated for that
+                                        this.displayResult(converter);
+                                    }else{
+                                        //Display error message in case the conversion has not been found
+                                        Toast.makeText(this,"No conversion from reference to UnitTo",Toast.LENGTH_LONG).show();
+                                    }
                                 }else{
-                                    //Display error message in case the conversion has not been found
-                                    Toast.makeText(this,"No conversion from reference to UnitTo",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(this,"No conversion from UnitFrom to UnitToRef: "+unitFrom.getName()+"and "+unitTo.getName() ,Toast.LENGTH_LONG).show();
                                 }
                             }else{
-                                Toast.makeText(this,"No conversion from UnitFrom to UnitToRef: "+unitFrom.getName()+"and "+unitTo.getName() ,Toast.LENGTH_LONG).show();
-                            }
-                        }else{
-                            //Declare and instansiate a new unit object to keep the reference in the unitFrom system
-                            Unit referenceUnitFrom = this.conversions.getReference(unitFrom);
-                            //Try to find the direct conversion between unitFrom and the reference
-                            cursor = this.conversions.getConversion(unitFrom,referenceUnitFrom);
-                            //Check the cursor does not return null or empty. (This covers conversion between units in the same system)
-                            if(cursor != null && cursor.getCount() > 0){
-                                //Create new converter object to calculate the conversion between unitFrom to reference
-                                Unit_Converter converterUnitFromRef = this.createUnitConverter(unitFrom,referenceUnitFrom,unitFromValue);
-                                //Try to find the direct conversion between reference and unitTo
-                                cursor = this.conversions.getConversion(referenceUnitFrom,unitTo);
-                                //Check the cursor does not return null or is empty
-                                if (cursor != null && cursor.getCount() > 0){
-                                    //Create new converter object to calculate the conversion from reference to unitTo
-                                    Unit_Converter converter = this.createUnitConverter(referenceUnitFrom,unitTo,String.valueOf(converterUnitFromRef.convertUnit()));
-                                    //Display result on the text view designated for that
-                                    this.displayResult(converter);
-                                }else{
-                                    //If cursor is empty or returns null would mean that converision between systems is required and extra intermediate conversion has to be done
-                                    //This covers conversions between different systems.
-                                    //Declare and instantiate a new unit object to keep the reference in th unitTo system
-                                    Unit referenceUnitTo = this.conversions.getReference(unitTo);
-                                    //Try to find the direct conversion between the unitFrom reference and unitToReference
-                                    cursor = this.conversions.getConversion(referenceUnitFrom,referenceUnitTo);
-                                    //Check the cursor does not return null or empty. (This covers conversion between units in different systems)
-                                    if(cursor != null && cursor.getCount() >0){
-                                        //Create new converter object to calculate the conversion from referenceUnitFrom to referenceUnitTo
-                                        Unit_Converter converterUnitToRef =this.createUnitConverter(referenceUnitFrom,referenceUnitTo,String.valueOf(converterUnitFromRef.convertUnit()));
-                                        //Try to find the direct conversion between the referenceUnitTo and unitTo units
-                                        cursor = this.conversions.getConversion(referenceUnitTo,unitTo);
-                                        //Check the cursor does not return null or is empty.
+                                //Declare and instansiate a new unit object to keep the reference in the unitFrom system
+                                Unit referenceUnitFrom = this.conversions.getReference(unitFrom);
+                                //Try to find the direct conversion between unitFrom and the reference
+                                cursor = this.conversions.getConversion(unitFrom,referenceUnitFrom);
+                                //Check the cursor does not return null or empty. (This covers conversion between units in the same system)
+                                if(cursor != null && cursor.getCount() > 0){
+                                    //Create new converter object to calculate the conversion between unitFrom to reference
+                                    Unit_Converter converterUnitFromRef = this.createUnitConverter(unitFrom,referenceUnitFrom,unitFromValue);
+                                    //Try to find the direct conversion between reference and unitTo
+                                    cursor = this.conversions.getConversion(referenceUnitFrom,unitTo);
+                                    //Check the cursor does not return null or is empty
+                                    if (cursor != null && cursor.getCount() > 0){
+                                        //Create new converter object to calculate the conversion from reference to unitTo
+                                        Unit_Converter converter = this.createUnitConverter(referenceUnitFrom,unitTo,String.valueOf(converterUnitFromRef.convertUnit()));
+                                        //Display result on the text view designated for that
+                                        this.displayResult(converter);
+                                    }else{
+                                        //If cursor is empty or returns null would mean that converision between systems is required and extra intermediate conversion has to be done
+                                        //This covers conversions between different systems.
+                                        //Declare and instantiate a new unit object to keep the reference in th unitTo system
+                                        Unit referenceUnitTo = this.conversions.getReference(unitTo);
+                                        //Try to find the direct conversion between the unitFrom reference and unitToReference
+                                        cursor = this.conversions.getConversion(referenceUnitFrom,referenceUnitTo);
+                                        //Check the cursor does not return null or empty. (This covers conversion between units in different systems)
                                         if(cursor != null && cursor.getCount() >0){
-                                            //Create new converter object to calculate the conversion from reference to unitTo
-                                            Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
-                                            //Display result on the text view designated for that
-                                            this.displayResult(converter);
-                                        }else{
-                                            Toast.makeText(this,"No conversion found for theses units: "+unitFrom.getName()+"and "+unitTo.getName() ,Toast.LENGTH_LONG).show();
+                                            //Create new converter object to calculate the conversion from referenceUnitFrom to referenceUnitTo
+                                            Unit_Converter converterUnitToRef =this.createUnitConverter(referenceUnitFrom,referenceUnitTo,String.valueOf(converterUnitFromRef.convertUnit()));
+                                            //Try to find the direct conversion between the referenceUnitTo and unitTo units
+                                            cursor = this.conversions.getConversion(referenceUnitTo,unitTo);
+                                            //Check the cursor does not return null or is empty.
+                                            if(cursor != null && cursor.getCount() >0){
+                                                //Create new converter object to calculate the conversion from reference to unitTo
+                                                Unit_Converter converter = this.createUnitConverter(referenceUnitTo,unitTo,String.valueOf(converterUnitToRef.convertUnit()));
+                                                //Display result on the text view designated for that
+                                                this.displayResult(converter);
+                                            }else{
+                                                Toast.makeText(this,"No conversion found for theses units: "+unitFrom.getName()+"and "+unitTo.getName() ,Toast.LENGTH_LONG).show();
+                                            }
                                         }
                                     }
+                                }else{
+                                    //If cursor is empty or returns null or is empty throw an error message
+                                    Toast.makeText(this,"No conversion found for this unit: "+unitFrom.getName()+"and its reference: "+referenceUnitFrom.getName() ,Toast.LENGTH_LONG).show();
                                 }
-                            }else{
-                                //If cursor is empty or returns null or is empty throw an error message
-                                Toast.makeText(this,"No conversion found for this unit: "+unitFrom.getName()+"and its reference: "+referenceUnitFrom.getName() ,Toast.LENGTH_LONG).show();
                             }
                         }
                     }
+
                 }//End of inner if else statement
             }
         }else{
@@ -828,5 +838,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
         Log.d("Ext_callPrefernce","Exit the callPreferences method in MainActivity.");
     }// End of callPreferences method
+
+    //Method to check the input value and the unit seleted respect the physical limits (Absolute zero)
+    private boolean isValid(Unit unitFrom, String unitFromValue){
+        Log.d("Ent_isValid","Enter isValid method in MainActivity.");
+        //Declare a boolean flag to be returned by method
+        boolean isValid = true;
+        //Perform the check for temperature. At this moment this is the only check done, but more can be added within this method later on
+        if ((unitFrom.getName().toLowerCase().equals("kelvin")&& Double.parseDouble(unitFromValue)< ABSOLUTE_ZERO) || (unitFrom.getName().toLowerCase().equals("celsius")&& Double.parseDouble(unitFromValue)< ABSOLUTE_ZERO_CELSIUS)
+                || (unitFrom.getName().toLowerCase().equals("fahrenheit")&& Double.parseDouble(unitFromValue)< ABSOLUTE_ZERO_FAHRENHEIT)){
+            isValid = false;
+        }
+        Log.d("Ext_isValid","Exit isValid method in MainActivity.");
+        return isValid;
+    }//End of isValid method
 
 }//End of MainActivity class
