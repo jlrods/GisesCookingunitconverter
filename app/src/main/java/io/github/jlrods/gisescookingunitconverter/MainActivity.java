@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Ent_main","Enter onCreate on MainActivity.");
         //Set layout
         setContentView(R.layout.activity_main);
-        //Create and instantiate imageViews for each available propertiy
+        //Create and instantiate imageViews for each available proprerty
         imgWeight = (ImageView) this.findViewById(R.id.imgWeight);
         imgVolume = (ImageView) this.findViewById(R.id.imgVolume);
         imgTemperature = (ImageView) this.findViewById(R.id.imgTemperature);
