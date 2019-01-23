@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
         String preferedPropertyID = pref.getString("intitalProperty","0");
         //Create a new property object to hold the prefered property
         Property  preferenceProperty = Property.findProperty(Integer.parseInt(preferedPropertyID));
-        //Check the current property and the prefered  are not the same
+        //Check the current property and the preferred  are not the same
         if(this.currentProperty != preferenceProperty){
             this.changeProperty(spUnitFrom,spUnitTo,currentProperty,preferenceProperty);
         }else{
